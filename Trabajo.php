@@ -14,23 +14,42 @@
         $dbname='universidad';
         $user='root';
         $pass='';
-        
+
         $dni=$_POST['dni'] ?? null;
         $nombre=$_POST['nombre'] ?? null;
         $apellido_1=$_POST['apellido1'] ?? null;
         $apellido_2=$_POST['apellido2'] ?? null;
-        $pag_actual =$_POST['pag_actual'] ?? null;
+        
+
+        try {
+            $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+            $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+            $sql_count = 'select count(*) from alumno';
+  
+            $stmt=$pdo->prepare($sql_count);
+            $stmt->execute();
+          }
+          catch(PDOException $e) {
+              echo $e->getMessage();
+          }
+
+          $count=($stmt->fetch(PDO::FETCH_ASSOC));
+
+
+        $pag_actual =$_POST['pag_actual'] ?? 1;
         $calculo_pag =$_POST['calculo_pag'] ?? null;
         $pag_anterior =$_POST['pag_anterior'] ?? null;
         $pag_siguiente =$_POST['pag_siguiente'] ?? null;
         $primera_pag = $_POST['primera_pag'] ?? null;
         $ultima_pag = $_POST['ultima_pag'] ?? null;
         $registros = $_POST['registros'] ?? null;
+        $registros_mostrados = $_POST['registros_mostrados'] ?? 15;
         $limit = $_POST['limit'] ?? null;
-        $registros_mostrados = $_POST['registros_mostrados'] ?? null;
 
-        //todos los registros count(*)
-        //limit
+
+        $pag_totales = ceil($count['count(*)']/$registros_mostrados);
+        print_r($count);
+        
      
         if($ultima_pag){
             echo "Ha pulsado ultima pagina";
@@ -49,8 +68,7 @@
         }
         
 
-        //limit(.primernum.", ".otronum)
-        $sql="select * from alumno where true";
+        $sql="select * from alumno where true ";
         $datos=[];
 
         if(!empty($dni)){
@@ -73,6 +91,8 @@
             $datos[':apellido2']=$apellido_2;
         }
 
+        $sql.='limit 0, 10';
+
         try {
           $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
           $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
@@ -86,28 +106,30 @@
         }
 
     ?>
+
 </head>
 <body>
 
-    <h2>FORMULARIO</h2>
     <form action="Trabajo.php" method="post">
+
         <label for="dni">DNI</label>
         <input type="text" name="dni" id="dni">
+
         <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" id="nombre"  value="<?php
-            echo $nombre
-        ?>">
+        <input type="text" name="nombre" id="nombre">
+
         <label for="apellido_1">Primer apellido</label>
-        <input type="text" name="apellido_1" id="apellido_1">
+        <input type="text" name="apellido_1" id="apellido_1"
+        >
         <label for="apellido_2">Segundo apellido</label>
         <input type="text" name="apellido_2" id="apelido_2">
 
         <input type="submit" value="Enviar">
         <input type="reset" value="Reset">
-    </form>
 
-    <h2>TABLA ALUMNOS</h2>
-    <table>
+
+        <h2>TABLA ALUMNOS</h2>
+        <table>
         <td>DNI:</td>
         <td>NOMBRE:</td>
         <td>PRIMER APELLIDO:</td>
@@ -132,19 +154,11 @@
             }
         ?> 
 
-    </table>
-    <div>
-        <form action="Trabajo.php" method="post">
+        </table>
 
+        <div>
         <input type="submit" name="primera_pag" value="<<">
-        <?php 
-        if($primera_pag != $pag_actual){
-
-        }
-        
-        
-        ?>
-    
+            
         <input type="submit" name="pag_anterior" value="<">
 
         <input type="submit" name="pag_actual" value="<--Página actual-->">
@@ -152,8 +166,11 @@
         <input type="submit" name="pag_siguiente" value=">">
 
         <input type="submit" name="ultima_pag" value=">>">
-        </form>
-    </div>
+
+        </div>
+
+    </ >
+        
     
 </body>
 </html>
