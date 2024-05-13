@@ -52,7 +52,7 @@
                 // Usuario autenticado correctamente
                 $_SESSION['username'] = $username;
                 // Redirigir a la página de inicio o a donde desees
-                header("Location: index.php");
+                header("Location: Trabajo.php");
                 exit();
                 } else {
              // Usuario o contraseña incorrectos
@@ -67,7 +67,7 @@
 <body>
     <div class = "form-body">
         <p class="text"> Login FCT </p>
-        <form class="login-form">
+        <form class="form-login" action="login.php" method="post">
             
             <input type="text" placeholder="Introduce NIA">
             <input type="password" placeholder="Introduce contraseña">
