@@ -41,8 +41,8 @@
         }if($pag_actual){
             echo "Ha pulsado la pagina actual";
         
-        }if($pag_siguiente){
-            echo "Ha pulsado la pagina siguiente";
+            }if($pag_siguiente && $pag_actual<=$pag_totales){
+                $pag_actual++;
         
         }if($pag_anterior){
             echo "Ha pulsado la pagina anterior";
