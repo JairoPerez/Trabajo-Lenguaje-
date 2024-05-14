@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FCT</title>
         <?php
+            include 'auth.php';
+
             $host='localhost';
-            $dbname='gestfct';
+            $dbname='gestionfct';
             $user='root';
             $pass='';
 
@@ -106,7 +108,7 @@
  </head>
     <body>
 
-        <form action="Trabajo.php" method="post">
+        <form action="Buscador.php" method="post">
 
             <h2>BUSCADOR</h2>
 

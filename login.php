@@ -8,7 +8,7 @@
     <?php
     
         $host = "localhost";
-        $dbname = "gestfct";
+        $dbname = "gestionfct";
         $user = 'root';
         $pass='';
 
@@ -23,27 +23,8 @@
         echo $e->getMessage();
             }
     
-            
-        if (!empty($_POST["btnacceder"])){
-            if (empty($_POST["nia"]) and empty($_POST["password"])){
-                    echo '<div> Los campos estan vacios </div>';
-    
-        } else {
-                
-            $nia=$_POST["nia"];
-            $password=$_POST["password"];
-    
-            $sql=$conexion->query(" select * from alumno where nia='$nia' and password='$password' ");
-    
-            if ($datos=$sql->FETCH()){
-                header("location:Buscador/Buscador.php");
-            }else{
-                echo '<div> Usuario o contraseña incorrectos </div>';
-            }
-        }
-    }
-
- ?>
+    ?>
+       
 
 </head>
 <body>
@@ -54,7 +35,36 @@
             <input type="text" name="nia" placeholder="Introduce NIA">
             <input type="password" name="password"  placeholder="Introduce contraseña">
 
-            <input type="submit" name="btnacceder">
+            <div>
+                <?php 
+                    if (!empty($_POST["btnacceder"])){
+                        if (empty($_POST["nia"]) and empty($_POST["password"])){
+                                echo '<div> Los campos estan vacios </div>';
+        
+                        } else {
+                    
+                            $nia=$_POST["nia"];
+                            $password=$_POST["password"];
+        
+                            $sql=$conexion->query(" select * from alumno where nia='$nia' and password='$password' ");
+        
+                            if ($datos=$sql->FETCH()){
+                                session_start();
+
+                                $_SESSION['nia']=$nia;
+                                $_SESSION['nombre']=$query['nombre'];
+
+                                header("location:Buscador/Buscador.php");
+                                exit();
+                                }else{
+                                    echo '<div> Usuario o contraseña incorrectos </div>';
+                                }
+                            }
+                        }
+                ?>  
+            </div>
+
+            <input type="submit"  class="enviar" name="btnacceder">
             <button type="submit">¿Has olvidado la contraseña?</button>
 </body>
 </html>
