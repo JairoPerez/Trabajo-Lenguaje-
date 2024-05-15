@@ -39,7 +39,7 @@
                 <?php 
                     if (!empty($_POST["btnacceder"])){
                         if (empty($_POST["nia"]) and empty($_POST["password"])){
-                                echo '<div> Los campos estan vacios </div>';
+                                echo 'Los campos estan vacios';
         
                         } else {
                     
@@ -61,10 +61,63 @@
                                 }
                             }
                         }
+
+
+                        if (!empty($_POST["btnacceder2"])){
+                            if (empty($_POST["email"])){
+                                echo 'Introduce un correo electrónico';
+            
+                            } else {
+                        
+                                $email=$_POST["email"];
+
+                                $sql=$conexion->query(" select * from alumno where email='$email' ");
+                    
+                                    header("location:Buscador/Buscador.php");
+                                    exit();
+                                        echo '<div> Correo electrónico incorrecto </div>';
+                                }
+                            }
+    
+
+
                 ?>  
+
             </div>
 
             <input type="submit"  class="enviar" name="btnacceder">
-            <button type="submit">¿Has olvidado la contraseña?</button>
+
+            <button id="olvidar" type="button">¿Has olvidado la contraseña?</button>
+
+            <div class="popup">
+                <div class="contenido-popup">
+                    <div>
+                        <h1>Recupera tu cuenta</h1>
+
+                        <h2>Introduce tu correo eléctronico para buscar tu cuenta</h2>
+
+                    </div>
+                    <input type="text" placeholder="Correo eléctronico">
+
+                    <div class="btnolvidar">
+
+                    <button class="cerrar">Cancelar</button>
+                    <input type="submit" value="Enviar" name="btnacceder2">
+
+                    </div>
+                    
+                </div>
+            </div>
+        
+        <script>
+
+            document.getElementById("olvidar").addEventListener("click", function(){
+                document.querySelector(".popup").style.display = "flex";
+            })
+
+            document.getElementById("cerrar").addEventListener("click", function(){
+                document.querySelector(".popup").style.display = "none";
+            })
+        </script>
 </body>
 </html>
