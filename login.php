@@ -56,7 +56,7 @@
                                 $_SESSION['nia']=$nia;
                                 $_SESSION['nombre']=$query['nombre'];
 
-                                header("location:Dashboards/alumno_dashboard.php");
+                                header("location:Dashboards/Alumnos/AlumnoDashboard.php");
                                 exit();
                                 
                             }if ($datos=$sql_tutor->FETCH()){
@@ -66,7 +66,7 @@
                                     $_SESSION['nia']=$nia;
                                     $_SESSION['nombre']=$query['nombre'];
 
-                                    header("location:Dashboards/tutor_dashboard.php");
+                                    header("location:Dashboards/Tutores/TutorDashboard.php");
                                     exit();
 
                                 }else{
