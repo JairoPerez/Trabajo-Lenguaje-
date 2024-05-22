@@ -2,10 +2,10 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Recupera el NIA (Número de Identificación del Alumno) del formulario POST.
     // Si no se encuentra, lo establece como null.
-    $nia = $_POST['nia'] ?? null;
+    $email = $_POST['email'] ?? null;
 
     // Verifica si el NIA fue proporcionado.
-    if ($nia) {
+    if ($email) {
         // Datos de conexión a la base de datos.
         $host = 'localhost';
         $dbname = 'gestionfct';

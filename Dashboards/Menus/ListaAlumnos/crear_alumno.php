@@ -28,7 +28,7 @@
         <input type="password" name="password" id="password">
 
         <input type="submit" value="Crear">
-        <input type="button" value="Volver" onclick="location.href='Buscador.php'">
+        <input type="button" value="Volver" onclick="location.href='ListaAlumnos.php'">
     </form>
 
     <?php
