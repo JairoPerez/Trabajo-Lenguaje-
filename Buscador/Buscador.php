@@ -162,8 +162,7 @@
                         echo    $rows['nombre'];
                         echo    "</td>";
                         echo   "<td>";
-                        echo    "<form action='crear_alumno.php' method='post'>";
-                        echo    "<input type='submit' name='create' value='Crear'>";
+                        echo    '<button type="button" onclick="Crear()">Crear</button>';
                         echo    "<form action='modificar_alumno.php' method='post'>";
                         echo    "<input type='submit' name='modify' value='Modificar'>";
                         echo    "<form action='borrar_alumno.php' method='post'>";
@@ -175,7 +174,11 @@
 
                                  
                 ?> 
-
+        <script>
+            function Crear() {
+            window.location.href = 'crear_alumno.php';
+            }
+        </script>
         </table>
 
         <div>

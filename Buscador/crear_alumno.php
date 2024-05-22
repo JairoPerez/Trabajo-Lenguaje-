@@ -21,6 +21,12 @@
         <label for="nombre">Nombre</label>
         <input type="text" name="nombre" id="nombre">
 
+        <label for="cv_file">CV File</label>
+        <input type="file" name="cv_file" id="cv_file">
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+
         <input type="submit" value="Crear">
     </form>
 
@@ -32,23 +38,27 @@
         $user='root';
         $pass='';
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $email = $_POST['email'];
             $nia = $_POST['nia'];
             $telefono = $_POST['telefono'];
             $nombre = $_POST['nombre'];
+            $cv_file = $_POST['cv_file'];
+            $password = $_POST['password'];
 
             try {
                 $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $sql = "INSERT INTO alumno (email, nia, telefono, nombre) VALUES (:email, :nia, :telefono, :nombre)";
+                $sql = "INSERT INTO alumno (email, nia, telefono, nombre, cv_file, password) VALUES (:email, :nia, :telefono, :nombre, :cv_file, :password)";
                 $stmt = $pdo->prepare($sql);
 
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':nia', $nia);
                 $stmt->bindParam(':telefono', $telefono);
                 $stmt->bindParam(':nombre', $nombre);
+                $stmt->bindParam(':cv_file', $cv_file);
+                $stmt->bindParam(':password', $password);
 
                 $stmt->execute();
                 echo "Alumno creado con éxito!";
