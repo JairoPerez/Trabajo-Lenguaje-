@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Si no se encuentra, lo establece como null.
     $email = $_POST['email'] ?? null;
 
-    // Verifica si el NIA fue proporcionado.
+    // Verifica si el email fue proporcionado.
     if ($email) {
         // Datos de conexión a la base de datos.
         $host = 'localhost';
@@ -18,12 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Configura PDO para que lance excepciones en caso de error.
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Consulta para verificar si el alumno con el NIA especificado existe.
+            // Consulta para verificar si el alumno con el email especificado existe.
             $sql_check = "SELECT COUNT(*) FROM alumno WHERE email = :email";
             $stmt_check = $pdo->prepare($sql_check);
             $stmt_check->bindParam(':email', $email, PDO::PARAM_INT);
             $stmt_check->execute();
-            // Recupera el número de filas que coinciden con el NIA.
+            // Recupera el número de filas que coinciden con el email.
             $count = $stmt_check->fetchColumn();
 
             // Si el alumno no existe, devuelve un código de respuesta 404 (no encontrado) y un mensaje.
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 exit;
             }
 
-            // Consulta para eliminar al alumno con el NIA especificado.
+            // Consulta para eliminar al alumno con el email especificado.
             $sql = "DELETE FROM alumno WHERE email = :email";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':email', $email, PDO::PARAM_INT);
@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "Error de base de datos: " . $e->getMessage();
         }
     } else {
-        // Si no se proporcionó el NIA, devuelve un código de respuesta 400 (solicitud incorrecta) y un mensaje.
+        // Si no se proporcionó el email, devuelve un código de respuesta 400 (solicitud incorrecta) y un mensaje.
         http_response_code(400);
-        echo "NIA no especificado.";
+        echo "email no especificado.";
     }
 }
 ?>

@@ -32,7 +32,7 @@
     </form>
 
     <?php
-        include '..\auth.php';
+        include '..\..\..\auth.php';
 
         $host='localhost';
         $dbname='gestionfct';

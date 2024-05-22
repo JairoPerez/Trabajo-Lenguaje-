@@ -145,7 +145,7 @@
         </script>
 
         <h2>TABLA ALUMNOS</h2>
-
+        <?php echo '<button type="button" onclick="window.location.href = \'crear_alumno.php\'">Crear</button>'; ?>
         <table>
             <td>EMAIL</td>
             <td>NIA</td>
@@ -154,19 +154,20 @@
             <td>CURRICULUM</td>
 
             <?php
-            while ($rows = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<tr>";
-                echo "<td>{$rows['email']}</td>";
-                echo "<td>{$rows['nia']}</td>";
-                echo "<td>{$rows['telefono']}</td>";
-                echo "<td>{$rows['nombre']}</td>";
-                echo "<td>";
-                echo '<button type="button" onclick="window.location.href = \'modificar_alumno.php?email='.$rows['email'].'\'">Modificar</button>';
-                echo '<button type="button" class="delete-button" data-email="' . $rows['email'] . '">Borrar</button>';
-                echo "</td>";
-                echo "</tr>";
-            }
-            ?>
+while ($rows = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo "<tr>";
+    echo "<td>{$rows['email']}</td>";
+    echo "<td>{$rows['nia']}</td>";
+    echo "<td>{$rows['telefono']}</td>";
+    echo "<td>{$rows['nombre']}</td>";
+    echo "<td>";
+    echo '<button type="button" onclick="console.log(\'Email: ' . $rows['email'] . ', NIA: ' . $rows['nia'] . '\'); window.location.href = \'modificar_alumno.php?email=' . urlencode($rows['email']) . '&nia=' . urlencode($rows['nia']) . '\'">Modificar</button>';
+    echo '<button type="button" class="delete-button" data-email="' . $rows['email'] . '">Borrar</button>';
+    echo "</td>";
+    echo "</tr>";
+}
+?>
+
 
         </table>
 
