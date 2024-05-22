@@ -39,7 +39,7 @@
                 $email = $alumno['email'];
                 $telefono = $alumno['telefono'];
                 $nombre = $alumno['nombre'];
-                $cv_file = $alumno['cv_file']; // Suponiendo que tienes esta columna en la base de datos
+                $cv_file = $alumno['cv_file']; 
             } else {
                 echo "No se encontró el alumno con NIA $nia.";
             }
