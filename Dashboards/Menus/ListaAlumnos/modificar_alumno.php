@@ -18,9 +18,9 @@
     $user = 'root';
     $pass = '';
 
-    // Obtener el NIA del alumno a modificar si se proporciona en la URL
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['nia'])) {
-        $nia = $_GET['nia'];
+    // Obtener el email del alumno a modificar si se proporciona en la URL
+    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['email'])) {
+        $email = $_GET['email'];
 
         try {
             // Conexión a la base de datos
@@ -28,9 +28,9 @@
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Consulta para obtener los datos del alumno
-            $sql = "SELECT * FROM alumno WHERE nia = :nia";
+            $sql = "SELECT * FROM alumno WHERE email = :email";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':nia', $nia, PDO::PARAM_INT);
+            $stmt->bindParam(':email', $email, PDO::PARAM_INT);
             $stmt->execute();
             $alumno = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -41,7 +41,7 @@
                 $nombre = $alumno['nombre'];
                 $cv_file = $alumno['cv_file']; 
             } else {
-                echo "No se encontró el alumno con NIA $nia.";
+                echo "No se encontró el alumno con email $email.";
             }
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -64,7 +64,7 @@
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Consulta para actualizar los datos del alumno
-            $sql = "UPDATE alumno SET nombre = :nombre, email = :email, telefono = :telefono, cv_file = :cv_file WHERE nia = :nia";
+            $sql = "UPDATE alumno SET nombre = :nombre, email = :email, telefono = :telefono, cv_file = :cv_file WHERE email = :email";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':nia', $nia);

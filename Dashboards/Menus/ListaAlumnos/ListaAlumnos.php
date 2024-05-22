@@ -152,30 +152,19 @@
             <td>TELÉFONO</td>
             <td>NOMBRE</td>
             <td>CURRICULUM</td>
-            <td>PASSWORD</td>
 
             <?php
             while ($rows = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo  "<tr>";
-                echo   "<td>";
-                echo    $rows['email'];
-                echo    "</td>";
-                echo   "<td>";
-                echo    $rows['nia'];
-                echo    "</td>";
-                echo   "<td>";
-                echo    $rows['telefono'];
-                echo    "</td>";
-                echo   "<td>";
-                echo    $rows['nombre'];
-                echo    "</td>";
-                echo   "<td>";
-                echo    $rows['cv_file'];
-                echo    "</td>";
-                echo   "<td>";
-                echo    $rows['password'];
-                echo    "</td>";
-                echo    "</tr>";
+                echo "<tr>";
+                echo "<td>{$rows['email']}</td>";
+                echo "<td>{$rows['nia']}</td>";
+                echo "<td>{$rows['telefono']}</td>";
+                echo "<td>{$rows['nombre']}</td>";
+                echo "<td>";
+                echo '<button type="button" onclick="window.location.href = \'modificar_alumno.php?email='.$rows['email'].'\'">Modificar</button>';
+                echo '<button type="button" class="delete-button" data-email="' . $rows['email'] . '">Borrar</button>';
+                echo "</td>";
+                echo "</tr>";
             }
             ?>
 
@@ -196,7 +185,32 @@
         </div>
 
     </form>
-
+    <script>
+        document.querySelectorAll('.delete-button').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                if(confirm('¿Está seguro?')) {
+                    var email = e.target.getAttribute('data-email');
+                    fetch('borrar_alumno.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'email=' + email
+                    }).then(function(response) {
+                        return response.text().then(function(text) {
+                            if(response.ok) {
+                                e.target.parentElement.parentElement.remove();
+                            } else {
+                                alert('Error: ' + text);
+                            }
+                        });
+                    }).catch(function(error) {
+                        alert('Error al conectar con el servidor.');
+                    });
+                }
+            });
+        });
+    </script>
 
 </body>
 

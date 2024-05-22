@@ -1,6 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recupera el NIA (Número de Identificación del Alumno) del formulario POST.
+    // Recupera el email (Número de Identificación del Alumno) del formulario POST.
     // Si no se encuentra, lo establece como null.
     $email = $_POST['email'] ?? null;
 
@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Consulta para verificar si el alumno con el NIA especificado existe.
-            $sql_check = "SELECT COUNT(*) FROM alumno WHERE nia = :nia";
+            $sql_check = "SELECT COUNT(*) FROM alumno WHERE email = :email";
             $stmt_check = $pdo->prepare($sql_check);
-            $stmt_check->bindParam(':nia', $nia, PDO::PARAM_INT);
+            $stmt_check->bindParam(':email', $email, PDO::PARAM_INT);
             $stmt_check->execute();
             // Recupera el número de filas que coinciden con el NIA.
             $count = $stmt_check->fetchColumn();
@@ -29,14 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Si el alumno no existe, devuelve un código de respuesta 404 (no encontrado) y un mensaje.
             if ($count == 0) {
                 http_response_code(404);
-                echo "No se encontró el alumno con NIA $nia.";
+                echo "No se encontró el alumno con email $email.";
                 exit;
             }
 
             // Consulta para eliminar al alumno con el NIA especificado.
-            $sql = "DELETE FROM alumno WHERE nia = :nia";
+            $sql = "DELETE FROM alumno WHERE email = :email";
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':nia', $nia, PDO::PARAM_INT);
+            $stmt->bindParam(':email', $email, PDO::PARAM_INT);
             $stmt->execute();
 
             // Verifica si la eliminación tuvo éxito (afectó al menos una fila).
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 // Si no tuvo éxito, devuelve un código de respuesta 500 (error interno del servidor) y un mensaje.
                 http_response_code(500);
-                echo "Error al intentar borrar el alumno con NIA $nia.";
+                echo "Error al intentar borrar el alumno con email $email.";
             }
         } catch (PDOException $e) {
             // Si ocurre una excepción de PDO, devuelve un código de respuesta 500 y el mensaje de error.
