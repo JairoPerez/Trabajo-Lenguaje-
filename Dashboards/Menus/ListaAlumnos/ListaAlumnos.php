@@ -108,7 +108,7 @@
 
 <body>
 
-    <form id="myForm" action="Buscador.php" method="post">
+    <form id="myForm" action="ListaAlumnos.php" method="post">
 
         <h2>BUSCADOR</h2>
 
