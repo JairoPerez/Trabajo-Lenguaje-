@@ -6,9 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FCT</title>
-        <?php
-            include '..\auth.php';
-
+    <?php
+    
     $host = 'localhost';
     $dbname = 'gestionfct';
     $user = 'root';
@@ -70,16 +69,25 @@
         $datos[':nia'] = $nia;
     }
 
-            if(!empty($telefono)){
-                $sql.=' and telefono like :telefono';
-                $datos[':telefono']=$telefono;
-            }
+    if (!empty($telefono)) {
+        $sql .= ' and telefono like telefono';
+        $datos[':telefono'] = $telefono;
+    }
 
-            if(!empty($nombre)){
-                $sql.=' and nombre like :nombre';
-                $datos[':nombre']=$nombre;
-            }
+    if (!empty($pnombre)) {
+        $sql .= ' and nombre like :nombre';
+        $datos[':nombre'] = $nombre;
+    }
 
+    if (!empty($cv)) {
+        $sql .= ' and cv like :cv';
+        $datos[':cv'] = $cv;
+    }
+
+    if (!empty($password)) {
+        $sql .= ' and password like :password';
+        $datos[':password'] = $password;
+    }
 
     $sql .= ' limit ' . $calculo_pag . ', 15';
 
@@ -138,43 +146,38 @@
 
         <h2>TABLA ALUMNOS</h2>
 
-            <table>
-                <td>EMAIL</td>
-                <td>NIA</td>
-                <td>TELÉFONO</td>
-                <td>NOMBRE</td>
-                <td>OPCIONES</td>
+        <table>
+            <td>EMAIL</td>
+            <td>NIA</td>
+            <td>TELÉFONO</td>
+            <td>NOMBRE</td>
+            <td>CURRICULUM</td>
+            <td>PASSWORD</td>
 
-        
-                <?php
-                    while($rows=$stmt->fetch(PDO::FETCH_ASSOC)){
-                        echo  "<tr>";
-                        echo   "<td>";
-                        echo    $rows['email'];
-                        echo    "</td>";
-                        echo   "<td>";
-                        echo    $rows['nia'];
-                        echo    "</td>";
-                        echo   "<td>";
-                        echo    $rows['telefono'];
-                        echo    "</td>";
-                        echo   "<td>";
-                        echo    $rows['nombre'];
-                        echo    "</td>";
-                        echo   "<td>";
-                        echo    "<form action='crear_alumno.php' method='post'>";
-                        echo    "<input type='submit' name='create' value='Crear'>";
-                        echo    "<form action='modificar_alumno.php' method='post'>";
-                        echo    "<input type='submit' name='modify' value='Modificar'>";
-                        echo    "<form action='borrar_alumno.php' method='post'>";
-                        echo    "<input type='submit' name='delete' value='Borrar'>";
-                        echo    "</form>";
-                        echo    "</td>";
-                        echo    "</tr>";
-                    }
-
-                                 
-                ?> 
+            <?php
+            while ($rows = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo  "<tr>";
+                echo   "<td>";
+                echo    $rows['email'];
+                echo    "</td>";
+                echo   "<td>";
+                echo    $rows['nia'];
+                echo    "</td>";
+                echo   "<td>";
+                echo    $rows['telefono'];
+                echo    "</td>";
+                echo   "<td>";
+                echo    $rows['nombre'];
+                echo    "</td>";
+                echo   "<td>";
+                echo    $rows['cv_file'];
+                echo    "</td>";
+                echo   "<td>";
+                echo    $rows['password'];
+                echo    "</td>";
+                echo    "</tr>";
+            }
+            ?>
 
         </table>
 

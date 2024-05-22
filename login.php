@@ -32,35 +32,49 @@
         <p class="text"> Iniciar sesión</p>
         <form action="login.php" method="post">
 
-            <input type="text" name="nia" placeholder="Introduce NIA">
+            <input type="text" name="email" placeholder="Introduce correo electronico">
             <input type="password" name="password"  placeholder="Introduce contraseña">
 
             <div>
                 <?php 
                     if (!empty($_POST["btnacceder"])){
-                        if (empty($_POST["nia"]) and empty($_POST["password"])){
+                        if (empty($_POST["email"]) and empty($_POST["password"])){
                                 echo 'Los campos estan vacios';
         
                         } else {
-                    
-                            $nia=$_POST["nia"];
+                
+                            $email=$_POST["email"];
                             $password=$_POST["password"];
+
+                            $sql_alumno=$conexion->query(" select * from alumno where email='$email' and password='$password' ");
+                            $sql_tutor=$conexion->query(" select * from tutor where email='$email' and password='$password' ");
         
-                            $sql=$conexion->query(" select * from alumno where nia='$nia' and password='$password' ");
-        
-                            if ($datos=$sql->FETCH()){
+                            if ($datos=$sql_alumno->FETCH()){
                                 session_start();
 
+                                $_SESSION['email']=$email;
                                 $_SESSION['nia']=$nia;
                                 $_SESSION['nombre']=$query['nombre'];
 
-                                header("location:Buscador/Buscador.php");
+                                header("location:Dashboards/Alumnos/AlumnoDashboard.php");
                                 exit();
+                                
+                            }if ($datos=$sql_tutor->FETCH()){
+                                    session_start();
+                                    
+                                    $_SESSION['email']=$email;
+                                    $_SESSION['nia']=$nia;
+                                    $_SESSION['nombre']=$query['nombre'];
+
+                                    header("location:Dashboards/Tutores/TutorDashboard.php");
+                                    exit();
+
                                 }else{
                                     echo '<div> Usuario o contraseña incorrectos </div>';
                                 }
                             }
                         }
+                    
 
 
                         if (!empty($_POST["btnacceder2"])){
@@ -71,7 +85,7 @@
                         
                                 $email=$_POST["email"];
 
-                                $sql=$conexion->query(" select * from alumno where email='$email' ");
+                                $sql_alumno=$conexion->query(" select * from alumno where email='$email' ");
                     
                                     header("location:Buscador/Buscador.php");
                                     exit();
