@@ -81,7 +81,7 @@
             }
 
 
-    $sql .= ' limit ' . $calculo_pag . ', 15';
+    $sql .= ' limit ' . $calculo_pag . ', 10';
 
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
@@ -99,6 +99,7 @@
 </head>
 
 <body>
+
 
     <form id="myForm" action="Buscador.php" method="post">
 
@@ -137,7 +138,10 @@
         </script>
 
         <h2>TABLA ALUMNOS</h2>
+            <?php
+                echo    '<button type="button" onclick="window.location.href = \'crear_alumno.php\'">Crear</button>';
 
+            ?>
             <table>
                 <td>EMAIL</td>
                 <td>NIA</td>
@@ -162,13 +166,13 @@
                         echo    $rows['nombre'];
                         echo    "</td>";
                         echo   "<td>";
-                        echo    '<button type="button" onclick="Crear()">Crear</button>';
-                        echo    "<form action='modificar_alumno.php' method='post'>";
-                        echo    "<input type='submit' name='modify' value='Modificar'>";
-                        echo    "<form action='borrar_alumno.php' method='post'>";
-                        echo    "<input type='submit' name='delete' value='Borrar'>";
+                        echo    '<button type="button" onclick="window.location.href = \'modificar_alumno.php?id='.$rows['nia'].'\'">Modificar</button>';
+                        echo    '<button type="button" class="delete-button" data-nia="'.$rows['nia'].'">Borrar</button>';                        //echo    "<form action='modificar_alumno.php' method='post'>";
+                        //echo    "<input type='submit' name='modify' value='Modificar'>";
+                        //echo    "<form action='borrar_alumno.php' method='post'>";
+                        //echo    "<input type='submit' name='delete' value='Borrar'>";
                         echo    "</form>";
-                        echo    "</td>";
+                        echo    "</td>";                        
                         echo    "</tr>";
                     }
 
@@ -178,6 +182,28 @@
             function Crear() {
             window.location.href = 'crear_alumno.php';
             }
+            function Modificar() {
+            window.location.href = 'modificar_alumno.php';
+            }
+            function Borrar() {
+            window.location.href = 'borrar_alumno.php';
+            }
+            document.querySelectorAll('.delete-button').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    if(confirm('¿Está seguro?')) {
+                        var nia = e.target.getAttribute('data-nia');
+                        fetch('borrar_alumno.php?nia=' + nia, {
+                            method: 'POST'
+                        }).then(function(response) {
+                            if(response.ok) {
+                                e.target.parentElement.parentElement.remove();
+                            } else {
+                                alert('Error al borrar el alumno');
+                            }
+                        });
+                    }
+                });
+            });
         </script>
         </table>
 
@@ -197,7 +223,5 @@
 
     </form>
 
-
 </body>
-
 </html>

@@ -7,7 +7,7 @@
     <title>Crear Alumno</title>
 </head>
 <body>
-    <h2>Crear Alumno</h2>
+    <h2>Modificar Alumno</h2>
     <form action="" method="post">
         <label for="email">Email</label>
         <input type="text" name="email" id="email">
@@ -27,7 +27,7 @@
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
 
-        <input type="submit" value="Crear">
+        <input type="submit" value="Modificar">
         <input type="button" value="Volver" onclick="location.href='Buscador.php'">
     </form>
 
@@ -51,18 +51,20 @@
                 $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $sql = "INSERT INTO alumno (email, nia, telefono, nombre, cv_file, password) VALUES (:email, :nia, :telefono, :nombre, :cv_file, :password)";
+                $sql = "UPDATE alumno SET nombre = :nombre, email = :email, nia = :nia, telefono = :telefono, cv_file = :cv_file WHERE nia = :nia";
                 $stmt = $pdo->prepare($sql);
-
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':nia', $nia);
                 $stmt->bindParam(':telefono', $telefono);
                 $stmt->bindParam(':nombre', $nombre);
                 $stmt->bindParam(':cv_file', $cv_file);
-                $stmt->bindParam(':password', $password);
-
                 $stmt->execute();
-                echo "Alumno creado con éxito!";
+
+                if ($stmt->execute()) {
+                    echo "Alumno modificado con éxito!";
+                } else {
+                    print_r($stmt->errorInfo());
+                }
             } catch(PDOException $e) {
                 echo $sql . "<br>" . $e->getMessage();
             }
