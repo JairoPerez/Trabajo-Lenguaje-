@@ -10,39 +10,30 @@
     <h2>Modificar Alumno</h2>
 
     <?php
-    // Inclusión del archivo de autenticación y configuración de la base de datos
-    include '..\..\..\auth.php';
-
     $host = 'localhost';
     $dbname = 'gestionfct';
     $user = 'root';
     $pass = '';
 
-    // Obtener el email y el NIA del alumno a modificar si se proporciona en la URL
-    if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['email']) && isset($_GET['nia'])) {
-        $email = $_GET['email'];
-        $nia = $_GET['nia'];
+    $email = $_GET['email'] ?? null;
 
+    if ($email) {
         try {
-            // Conexión a la base de datos
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Consulta para obtener los datos del alumno
-            $sql = "SELECT * FROM alumno WHERE email = :email AND nia = :nia";
+            $sql = "SELECT * FROM alumno WHERE email = :email";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-            $stmt->bindParam(':nia', $nia, PDO::PARAM_STR);
             $stmt->execute();
             $alumno = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($alumno) {
-                // Asignar los datos del alumno a variables
-                $email = $alumno['email'];
-                $nia = $alumno['nia']; // Añade la asignación del NIA
+                $nia = $alumno['nia'];
                 $telefono = $alumno['telefono'];
                 $nombre = $alumno['nombre'];
-                $cv_file = $alumno['cv_file']; 
+                $cv_file = $alumno['cv_file'];
+                $password = $alumno['password'];
             } else {
                 echo "No se encontró el alumno con email $email";
             }
@@ -51,62 +42,75 @@
         }
     }
 
-    // Procesar la modificación del alumno cuando se envía el formulario
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
-        $nia = $_POST['nia']; // Asegúrate de capturar el NIA del formulario
+        $nia = $_POST['nia'];
         $telefono = $_POST['telefono'];
         $nombre = $_POST['nombre'];
         $cv_file = isset($_FILES['cv_file']['name']) ? $_FILES['cv_file']['name'] : '';
         $password = $_POST['password'];
 
         try {
-            // Conexión a la base de datos
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Consulta para actualizar los datos del alumno
-            $sql = "UPDATE alumno SET nombre = :nombre, email = :email, telefono = :telefono, cv_file = :cv_file WHERE email = :email AND nia = :nia";
+            $sql = "UPDATE alumno SET nombre = :nombre, email = :new_email, telefono = :telefono, cv_file = :cv_file, password = :password, nia = :nia WHERE email = :old_email";
             $stmt = $pdo->prepare($sql);
-            //el bindparam es para vincular valores a parametros
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':nia', $nia);
-            $stmt->bindParam(':telefono', $telefono);
-            $stmt->bindParam(':nombre', $nombre);
-            $stmt->bindParam(':cv_file', $cv_file);
+            $stmt->bindParam(':new_email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':old_email', $_POST['old_email'], PDO::PARAM_STR);
+            $stmt->bindParam(':telefono', $telefono, PDO::PARAM_STR);
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(':cv_file', $cv_file, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+            $stmt->bindParam(':nia', $nia, PDO::PARAM_STR);
             $stmt->execute();
-            
+
             echo "Alumno modificado con éxito!";
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
     ?>
-    
-    <!-- Formulario HTML para modificar el alumno -->
-    <form action="modificar_alumno.php" method="post" enctype="multipart/form-data">
-    <!--el htmlspecialchars convierte caracteres especiales en entidades HTML -->
-    <!--Bindparam es para comprobar si una variable está definida y no es nula-->
+
+<form action="modificar_alumno.php" method="post" enctype="multipart/form-data">
+    <!-- Campo para el email -->
     <label for="email">Email</label>
-        <input type="text" name="email" id="email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
+    <input type="text" name="email" id="email" value="<?= isset($email) ? htmlspecialchars($email) : ''; ?>">
+    <!-- Mostrar el email del alumno, si existe -->
 
-        <label for="nia">NIA</label>
-        <input type="text" name="nia" id="nia" value="<?php echo isset($nia) ? htmlspecialchars($nia) : ''; ?>">
+    <!-- Campo para el NIA -->
+    <label for="nia">NIA</label>
+    <input type="text" name="nia" id="nia" value="<?= isset($nia) ? htmlspecialchars($nia) : ''; ?>">
+    <!-- Mostrar el NIA del alumno, si existe -->
 
-        <label for="telefono">Teléfono</label>
-        <input type="text" name="telefono" id="telefono" value="<?php echo isset($telefono) ? htmlspecialchars($telefono) : ''; ?>">
+    <!-- Campo para el teléfono -->
+    <label for="telefono">Teléfono</label>
+    <input type="text" name="telefono" id="telefono" value="<?= isset($telefono) ? htmlspecialchars($telefono) : ''; ?>">
+    <!-- Mostrar el teléfono del alumno, si existe -->
 
-        <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" id="nombre" value="<?php echo isset($nombre) ? htmlspecialchars($nombre) : ''; ?>">
+    <!-- Campo para el nombre -->
+    <label for="nombre">Nombre</label>
+    <input type="text" name="nombre" id="nombre" value="<?= isset($nombre) ? htmlspecialchars($nombre) : ''; ?>">
+    <!-- Mostrar el nombre del alumno, si existe -->
 
-        <label for="cv_file">CV File</label>
-        <input type="file" name="cv_file" id="cv_file">
+    <!-- Campo para el archivo de CV -->
+    <label for="cv_file">CV File</label>
+    <input type="file" name="cv_file" id="cv_file">
 
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+    <!-- Campo para la contraseña -->
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" value="<?= isset($password) ? htmlspecialchars($password) : ''; ?>">
+    <!-- Mostrar la contraseña del alumno, si existe -->
 
-        <input type="submit" value="Modificar">
-        <input type="button" value="Volver" onclick="location.href='ListaAlumnos.php'">
-    </form>
+    <!-- Campo oculto para almacenar el email original -->
+    <input type="hidden" name="old_email" value="<?= htmlspecialchars($email); ?>">
+    <!-- Almacenar el email original del alumno -->
+
+    <!-- Botón para enviar el formulario -->
+    <input type="submit" value="Modificar">
+
+    <!-- Botón para volver a la lista de alumnos -->
+    <input type="button" value="Volver" onclick="location.href='ListaAlumnos.php'">
+</form>
 </body>
 </html>
