@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FCT</title>
     <?php
+    include '..\..\..\auth.php';
     // Configuración de la base de datos
     $host = 'localhost';
     $dbname = 'gestionfct';
@@ -90,22 +91,26 @@
         <label for="nombre">Nombre</label>
         <input type="text" name="nombre" id="nombre">
         <input type="submit" value="Enviar">
-        <input type="reset" id="resetInput" value="Reset">
-        <script>
-            // Añade un evento al botón con id 'resetInput' que se ejecutará al hacer clic en él
-            document.getElementById('resetInput').addEventListener('click', function() {
-                // Recarga la página actual
-                location.reload();
-            });
+        <input type="reset" class="borrar" value="Reset" onclick="limpiarFormulario()">
 
-            // Añade un evento al formulario con id 'myForm' que se ejecutará cuando se restablezca el formulario
-            document.getElementById('myForm').addEventListener('reset', function() {
-                // Utiliza setTimeout para ejecutar una función después de que el evento 'reset' se haya completado
-                setTimeout(function() {
-                    // Envía el formulario automáticamente
-                    document.getElementById('myForm').submit();
-                }, 0); // El retardo es 0 milisegundos, por lo que se ejecuta inmediatamente después del 'reset'
-            });
+        <script>
+            function limpiarFormulario(){
+                var input = document.getElementsByClassName("input")
+
+                for(i = 0; i< input.length;i++){
+                    input[i].value = ""
+                }
+
+                setTimeout(document.getElementById('myForm').submit(),0);
+            }
+            
+                        // Función para confirmar antes de borrar un alumno
+                        function confirmarBorrado(email) {
+                if (confirm("¿Estás seguro de que deseas borrar este alumno?")) {
+                    window.location.href = 'borrar_alumno.php?email=' + email;
+                }
+            }
+
         </script>
 
         <h2>TABLA ALUMNOS</h2>
@@ -126,7 +131,7 @@
                     <td><?php echo $rows['nombre']; ?></td>
                     <td>
                         <button type="button" onclick="window.location.href = 'modificar_alumno.php?email=<?php echo urlencode($rows['email']); ?>'">Modificar</button>
-                        <button type="button" class="delete-button" data-email="<?php echo $rows['email']; ?>">Borrar</button>
+                        <button type="button" class="delete-button" onclick="confirmarBorrado('<?php echo $rows['email']; ?>')">Borrar</button>
                     </td>
                 </tr>
             <?php endwhile; ?>
@@ -139,43 +144,7 @@
             <input type="submit" name="ultima_pag" value=">>">
         </div>
     </form>
-    <script>
-    // Selecciona todos los elementos con la clase 'delete-button' y aplica una función a cada uno
-    document.querySelectorAll('.delete-button').forEach(function(button) {
-        // Añade un evento de clic a cada botón de eliminar
-        button.addEventListener('click', function(e) {
-            // Muestra un cuadro de confirmación y si el usuario confirma, continúa con la eliminación
-            if (confirm('¿Está seguro?')) {
-                // Obtiene el valor del atributo 'data-email' del botón que fue clicado
-                var email = e.target.getAttribute('data-email');
-                
-                // Realiza una solicitud HTTP a 'borrar_alumno.php' utilizando el método POST
-                fetch('borrar_alumno.php', {
-                    method: 'POST', // Define el método HTTP como POST
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded', // Define el tipo de contenido de la solicitud
-                    },
-                    body: 'email=' + email // Define el cuerpo de la solicitud, enviando el email del alumno a borrar
-                }).then(function(response) {
-                    // Convierte la respuesta a texto
-                    return response.text().then(function(text) {
-                        // Si la respuesta del servidor es exitosa (código HTTP 200-299)
-                        if (response.ok) {
-                            // Elimina la fila del alumno de la tabla en el DOM
-                            e.target.parentElement.parentElement.remove();
-                        } else {
-                            // Muestra un mensaje de error si la respuesta no es exitosa
-                            alert('Error: ' + text);
-                        }
-                    });
-                }).catch(function(error) {
-                    // Muestra un mensaje de error si hay problemas con la solicitud
-                    alert('Error al conectar con el servidor.');
-                });
-            }
-        });
-    });
-</script>
 
 </body>
 </html>
+

@@ -64,11 +64,11 @@
                 $stmt->execute();
                 echo "Alumno creado con éxito!";
             } catch(PDOException $e) {
-                echo $sql . "<br>" . $e->getMessage();
+                echo "Error. Ha intentado ingresar un email existente.";
             }
-
             $pdo = null;
         }
     ?>
+    
 </body>
 </html>

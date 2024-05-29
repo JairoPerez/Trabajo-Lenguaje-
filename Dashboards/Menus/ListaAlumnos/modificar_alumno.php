@@ -71,26 +71,26 @@
         }
     }
     ?>
-
+    
 <form action="modificar_alumno.php" method="post" enctype="multipart/form-data">
     <!-- Campo para el email -->
     <label for="email">Email</label>
-    <input type="text" name="email" id="email" value="<?= isset($email) ? htmlspecialchars($email) : ''; ?>">
+    <input type="text" name="email" id="email" value="<?= $email ?? ''; ?>">
     <!-- Mostrar el email del alumno, si existe -->
 
     <!-- Campo para el NIA -->
     <label for="nia">NIA</label>
-    <input type="text" name="nia" id="nia" value="<?= isset($nia) ? htmlspecialchars($nia) : ''; ?>">
+    <input type="text" name="nia" id="nia" value="<?= $nia ?? ''; ?>">
     <!-- Mostrar el NIA del alumno, si existe -->
 
     <!-- Campo para el teléfono -->
     <label for="telefono">Teléfono</label>
-    <input type="text" name="telefono" id="telefono" value="<?= isset($telefono) ? htmlspecialchars($telefono) : ''; ?>">
+    <input type="text" name="telefono" id="telefono" value="<?= $telefono ?? ''; ?>">
     <!-- Mostrar el teléfono del alumno, si existe -->
 
     <!-- Campo para el nombre -->
     <label for="nombre">Nombre</label>
-    <input type="text" name="nombre" id="nombre" value="<?= isset($nombre) ? htmlspecialchars($nombre) : ''; ?>">
+    <input type="text" name="nombre" id="nombre" value="<?= $nombre ?? ''; ?>">
     <!-- Mostrar el nombre del alumno, si existe -->
 
     <!-- Campo para el archivo de CV -->
@@ -99,11 +99,10 @@
 
     <!-- Campo para la contraseña -->
     <label for="password">Password</label>
-    <input type="password" name="password" id="password" value="<?= isset($password) ? htmlspecialchars($password) : ''; ?>">
+    <input type="password" name="password" id="password" value="<?= $password ?? ''; ?>">
     <!-- Mostrar la contraseña del alumno, si existe -->
 
-    <!-- Campo oculto para almacenar el email original -->
-    <input type="hidden" name="old_email" value="<?= htmlspecialchars($email); ?>">
+    <input type="hidden" name="old_email" value="<?= $email ?? ''; ?>">
     <!-- Almacenar el email original del alumno -->
 
     <!-- Botón para enviar el formulario -->
@@ -112,5 +111,6 @@
     <!-- Botón para volver a la lista de alumnos -->
     <input type="button" value="Volver" onclick="location.href='ListaAlumnos.php'">
 </form>
+
 </body>
 </html>
