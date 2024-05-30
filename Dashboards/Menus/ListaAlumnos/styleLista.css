@@ -113,21 +113,3 @@ form#myForm td button:hover {
     background-color: #455a73;
 }
 
-/* Estilo para los botones */
-.button-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.button-group input[type="submit"],
-.button-group input[type="reset"] {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.button-group input {
-    width: 100px; /* Ajuste del ancho para los botones */
-}
