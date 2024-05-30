@@ -1,0 +1,133 @@
+/* Base styles for body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2f3e4e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container for form */
+form#myForm {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+/* Form titles */
+form#myForm h2 {
+    color: #2f3e4e;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form labels */
+form#myForm label {
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Form inputs */
+form#myForm input[type="text"],
+form#myForm input[type="submit"],
+form#myForm input[type="reset"],
+form#myForm input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Form buttons */
+form#myForm input[type="submit"],
+form#myForm input[type="reset"],
+form#myForm button {
+    width: calc(50% - 10px);
+    background-color: #2f3e4e;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form#myForm input[type="submit"]:hover,
+form#myForm input[type="reset"]:hover,
+form#myForm button:hover {
+    background-color: #455a73;
+}
+
+/* Table styles */
+form#myForm table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+form#myForm table, 
+form#myForm table th, 
+form#myForm table td {
+    border: 1px solid #ccc;
+}
+
+form#myForm table th, 
+form#myForm table td {
+    padding: 10px;
+    text-align: left;
+}
+
+form#myForm table th {
+    background-color: #2f3e4e;
+    color: #fff;
+}
+
+form#myForm table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+form#myForm table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Pagination styles */
+form#myForm div {
+    text-align: center;
+}
+
+form#myForm div input[type="submit"],
+form#myForm div input[type="number"] {
+    width: auto;
+    margin: 5px;
+    padding: 10px 15px;
+}
+
+
+
+form#myForm td button:hover {
+    background-color: #455a73;
+}
+
+/* Estilo para los botones */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button-group input[type="submit"],
+.button-group input[type="reset"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button-group input {
+    width: 100px; /* Ajuste del ancho para los botones */
+}

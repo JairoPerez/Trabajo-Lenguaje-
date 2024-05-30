@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleCrear.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Alumno</title>
@@ -11,21 +11,27 @@
     <form action="" method="post">
         <label for="email">Email</label>
         <input type="text" name="email" id="email">
+        <p>
 
         <label for="nia">Nia</label>
         <input type="text" name="nia" id="nia">
+        <p>
 
         <label for="telefono">Teléfono</label>
         <input type="text" name="telefono" id="telefono">
+        <p>
 
         <label for="nombre">Nombre</label>
         <input type="text" name="nombre" id="nombre">
+        <p>
 
         <label for="cv_file">CV File</label>
         <input type="file" name="cv_file" id="cv_file">
+        <p>
 
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
+        <p>
 
         <input type="submit" value="Crear">
         <input type="button" value="Volver" onclick="location.href='ListaAlumnos.php'">
@@ -64,7 +70,7 @@
                 $stmt->execute();
                 echo "Alumno creado con éxito!";
             } catch(PDOException $e) {
-                echo "Error. Ha intentado ingresar un email existente.";
+                echo "Error, ha intentado ingresar un email existente. Vuelve a intentarlo.";
             }
             $pdo = null;
         }
