@@ -76,7 +76,6 @@
                         }
                     
 
-
                         if (!empty($_POST["btnacceder2"])){
                             if (empty($_POST["email"])){
                                 echo 'Introduce un correo electrónico';

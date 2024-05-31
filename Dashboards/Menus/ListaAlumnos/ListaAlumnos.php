@@ -114,7 +114,7 @@
         </script>
 
         <h2>TABLA ALUMNOS</h2>
-        <button type="button" onclick="window.location.href = 'crear_alumno.php'">Crear</button>
+        <button type="button" onclick="window.location.href = 'crear_alumno.php'">Crear</button>        
         <table>
             <tr>
                 <th>EMAIL</th>

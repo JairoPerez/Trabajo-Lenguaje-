@@ -46,7 +46,7 @@
                 </li>
                 <li class="logout">
                     <a href="#">
-                        <span>Logout</span>
+                        <a href="auth.php">logout</a>
                     </a>
                 </li>
             </ul>
