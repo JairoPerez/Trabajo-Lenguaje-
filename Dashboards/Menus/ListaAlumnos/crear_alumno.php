@@ -70,7 +70,7 @@
                 $stmt->execute();
                 echo "Alumno creado con éxito!";
             } catch(PDOException $e) {
-                echo "Error, ha intentado ingresar un email existente. Vuelve a intentarlo.";
+                echo "Error, al intentar crear un alumno. Vuelve a intentarlo.";
             }
             $pdo = null;
         }

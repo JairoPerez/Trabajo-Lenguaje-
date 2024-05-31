@@ -106,7 +106,7 @@
             }
             
             // Función para confirmar antes de borrar un alumno
-            function confirmarBorrado(email) {
+            function confirmaqrBorrado(email) {
                 if (confirm("¿Estás seguro de que deseas borrar este alumno?")) {
                     window.location.href = 'borrar_alumno.php?email=' + email;
                 }

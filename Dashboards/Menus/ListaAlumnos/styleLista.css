@@ -1,4 +1,4 @@
-/* Base styles for body */
+/* Para el body */
 body {
     font-family: Arial, sans-serif;
     background-color: #2f3e4e;
@@ -9,7 +9,7 @@ body {
     margin: 0;
 }
 
-/* Container for form */
+/* Para el form */
 form#myForm {
     background-color: #ffffff;
     padding: 20px;
@@ -19,21 +19,21 @@ form#myForm {
     width: 100%;
 }
 
-/* Form titles */
+/* Titulos de form */
 form#myForm h2 {
     color: #2f3e4e;
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* Form labels */
+/* Labels de form */
 form#myForm label {
     display: block;
     color: #333;
     margin-bottom: 5px;
 }
 
-/* Form inputs */
+/* Inputs de form */
 form#myForm input[type="text"],
 form#myForm input[type="submit"],
 form#myForm input[type="reset"],
@@ -45,7 +45,7 @@ form#myForm input[type="number"] {
     border: 1px solid #ccc;
 }
 
-/* Form buttons */
+/* Botones de form */
 form#myForm input[type="submit"],
 form#myForm input[type="reset"],
 form#myForm button {
